@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import { useAddCategoryMutation } from '../services/CategorySlice/categortSlice'
 import './Add.scss'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { useNavigate } from 'react-router-dom'
 const Add = () => {
     const [formData, setFormData] = useState({ name: '', description: '' })
     const [addCategory] = useAddCategoryMutation()
+    const navigate = useNavigate()
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -17,7 +19,9 @@ const Add = () => {
             const response = await addCategory(formData).unwrap()
             console.log('Response:', response)
             setFormData({ name: '', description: '' })
-            window.location.reload()
+            setTimeout(() => {
+                navigate('/HomeQuery', {replace: true});
+            }, 500);
         } catch (error) {
             console.error(error)
         }

@@ -3,9 +3,11 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const categoriesApi = createApi({
     reducerPath: 'categoriesApi',
     baseQuery: fetchBaseQuery({ baseUrl: 'https://northwind.vercel.app/api/' }),
+    tagTypes: ['Categories'],
     endpoints: (builder) => ({
         getCategories: builder.query({
             query: () => 'categories',
+            providesTags: ['Categories'],
         }),
         getCategoryDetail: builder.query({
             query: (id) => `categories/${id}`,
@@ -16,12 +18,15 @@ export const categoriesApi = createApi({
                 method: 'PUT',
                 body: updatedData,
             }),
+            invalidatesTags: ['Categories'],
         }),
         deleteCategory: builder.mutation({
             query: (id) => ({
                 url: `categories/${id}`,
                 method: 'DELETE',
             }),
+            invalidatesTags: ['Categories'],
+
         }),
         addCategory: builder.mutation({
             query: (newCategory) => ({
@@ -29,6 +34,8 @@ export const categoriesApi = createApi({
                 method: 'POST',
                 body: newCategory,
             }),
+            invalidatesTags: ['Categories'],
+
         }),
     }),
 })
